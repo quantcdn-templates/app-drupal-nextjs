@@ -51,8 +51,6 @@ jobs:
           file: ./Dockerfile-drupal
           push: true
           tags: ${{ env.IMAGE_NAME }}-drupal:${{ env.IMAGE_TAG }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
           cache-from: type=gha,scope=${{ github.ref }}-drupal
           cache-to: type=gha,mode=max,scope=${{ github.ref }}-drupal
 
