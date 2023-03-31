@@ -25,6 +25,9 @@ RUN chown -R nextjs /app
 
 USER nextjs
 
+## Test install as nextjs user.
+RUN npm install --production
+
 EXPOSE 3000
 
 ENV PORT 3000
