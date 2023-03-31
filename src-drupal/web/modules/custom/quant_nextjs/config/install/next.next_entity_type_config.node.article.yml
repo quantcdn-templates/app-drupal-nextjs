@@ -1,0 +1,14 @@
+uuid: 32a88a95-3df3-4873-90bb-0880c91d87bc
+langcode: en
+status: true
+dependencies: {  }
+id: node.article
+site_resolver: site_selector
+configuration:
+  sites:
+    quant_nextjs: quant_nextjs
+  field_name: {  }
+revalidator: path
+revalidator_configuration:
+  revalidate_page: true
+  additional_paths: ''

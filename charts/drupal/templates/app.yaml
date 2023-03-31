@@ -1,0 +1,139 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drupal
+  labels:
+    app: drupal
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "quant.selectorLabels" . | nindent 6 }}
+      app: drupal
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "quant.selectorLabels" . | nindent 8 }}
+        app: {{ .Values.images.drupal.name }}
+        version: {{ .Values.appVersion }}
+    spec:
+      imagePullSecrets:
+        - name: quant-cloud
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+        - name: authorized-keys
+          configMap:
+            name: authorized-keys
+            defaultMode: 384
+        - name: drupal-data
+          persistentVolumeClaim:
+            claimName: drupal-pvc
+        {{- if .Values.images.redis.enabled }}
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: redis-pvc
+        {{- end }}
+      containers:
+        ### BEGIN DRUPAL CONTAINER
+        - name: {{ .Values.images.drupal.name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.images.drupal.repository }}:{{ .Values.images.drupal.tag }}"
+          imagePullPolicy: {{ .Values.images.drupal.pullPolicy | default .Values.images.pullPolicy }}
+          ports:
+            - name: {{ .Values.images.drupal.name }}
+              containerPort: {{ .Values.images.drupal.port }}
+              protocol: TCP
+            - name: {{ .Values.images.drupal.sshname }}
+              containerPort: {{ .Values.images.drupal.sshport }}
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: {{ .Values.images.drupal.port }}
+            timeoutSeconds: 1
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: {{ .Values.images.drupal.port }}
+            timeoutSeconds: 1
+          envFrom:
+            - configMapRef:
+                name: drupal-config
+          env:
+            - name: APACHE_RUN_USER
+              value: "nobody"
+          volumeMounts:
+            - name: authorized-keys
+              mountPath: /root/.ssh/authorized_keys
+              subPath: authorized_keys
+            - name: drupal-data
+              mountPath: /opt/drupal/web/sites/default/files
+          resources:
+            {{- toYaml .Values.images.drupal.resources | nindent 12 }}
+        ### END DRUPAL CONTAINER
+        ### BEGIN REDIS CONTAINER
+        {{- if .Values.images.redis.enabled }}
+        - name: {{ .Values.images.redis.name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.images.redis.repository }}:{{ .Values.images.redis.tag }}"
+          command:
+            - redis-server
+            - --save 60 1
+            - --loglevel warning
+          imagePullPolicy: {{ .Values.images.redis.pullPolicy | default .Values.images.pullPolicy }}
+          ports:
+            - name: {{ .Values.images.redis.name }}
+              containerPort: {{ .Values.images.redis.port }}
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: {{ .Values.images.redis.port }}
+            timeoutSeconds: 1
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: {{ .Values.images.redis.port }}
+          envFrom:
+            - configMapRef:
+                name: drupal-config
+          volumeMounts:
+            - name: redis-data
+              mountPath: /data
+          resources:
+            {{- toYaml .Values.images.redis.resources | nindent 12 }}
+        {{- end }}
+        ### END REDIS CONTIANER
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

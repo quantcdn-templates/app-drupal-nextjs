@@ -1,0 +1,11 @@
+uuid: 2ea1bc38-b30e-416b-ba25-f81231baebab
+langcode: en
+status: true
+dependencies: {  }
+id: quant_nextjs
+label: 'QuantCDN Next.js default site'
+base_url: 'http://localhost:80'
+preview_url: 'http://nextjs:3000/api/preview'
+preview_secret: secret
+revalidate_url: 'http://nextjs:3000/api/revalidate'
+revalidate_secret: secret
