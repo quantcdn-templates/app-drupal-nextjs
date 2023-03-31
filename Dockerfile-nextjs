@@ -20,6 +20,8 @@ RUN apk add vim curl
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/package.json ./package.json
 
+RUN chown -R nextjs /app
+
 USER nextjs
 
 EXPOSE 3000
