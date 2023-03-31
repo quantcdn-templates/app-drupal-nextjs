@@ -9,6 +9,7 @@ RUN set -eux; \
 	if command -v a2enmod; then \
 		a2enmod rewrite; \
 		a2enmod headers; \
+		a2enmod proxy proxy_http; \
 	fi; \
 	\
 	savedAptMark="$(apt-mark showmanual)"; \
@@ -79,6 +80,7 @@ WORKDIR /opt/drupal
 COPY src-drupal /opt/drupal/
 COPY .docker/deployment-scripts /opt/deployment-scripts
 COPY .docker/000-default.conf /etc/apache2/sites-enabled/000-default.conf
+COPY .docker/001-drupal.conf /etc/apache2/sites-enabled/001-drupal.conf
 COPY .docker/quant/ /quant/
 
 RUN chmod +x /opt/deployment-scripts/*

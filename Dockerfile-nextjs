@@ -15,9 +15,7 @@ COPY src-nextjs/ /app/
 RUN chown -R nextjs /app
 
 USER nextjs
-
-## Test install as nextjs user.
-RUN npm install --production
+RUN npm install --omit=dev
 
 EXPOSE 3000
 
