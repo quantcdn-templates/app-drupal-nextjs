@@ -4,8 +4,8 @@ status: true
 dependencies: {  }
 id: quant_nextjs
 label: 'QuantCDN Next.js default site'
-base_url: 'http://localhost:80'
-preview_url: 'http://localhost:3000/api/preview'
+base_url: 'http://localhost'
+preview_url: 'http://localhost/api/preview'
 preview_secret: secret
-revalidate_url: 'http://localhost:3000/api/revalidate'
+revalidate_url: 'http://localhost/api/revalidate'
 revalidate_secret: secret
