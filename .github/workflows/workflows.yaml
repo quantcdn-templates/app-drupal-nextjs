@@ -53,6 +53,7 @@ jobs:
           tags: ${{ env.IMAGE_NAME }}-drupal:${{ env.IMAGE_TAG }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          scope: ${{ github.ref }}-drupal
 
       - name: Build and push Docker image (Next.js) to Quant Cloud
         uses: docker/build-push-action@v4
@@ -63,6 +64,7 @@ jobs:
           tags: ${{ env.IMAGE_NAME }}-nextjs:${{ env.IMAGE_TAG }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          scope: ${{ github.ref }}-nextjs
 
       - name: Deploy to Quant Cloud
         uses: koslibpro/helm-eks-action@master
