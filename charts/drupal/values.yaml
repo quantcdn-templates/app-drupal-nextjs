@@ -17,11 +17,11 @@ images:
     sshport: 22
     resources:
       limits:
-        cpu: 1500m
-        memory: 1548Mi
+        cpu: 1000m
+        memory: 1048Mi
       requests:
-        cpu: 1500m
-        memory: 1548Mi
+        cpu: 1000m
+        memory: 1048Mi
   redis:
     enabled: true
     name: redis

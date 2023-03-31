@@ -113,6 +113,12 @@ spec:
           envFrom:
             - configMapRef:
                 name: drupal-config
+          env:
+            - name: NEXT_PUBLIC_DRUPAL_BASE_URL
+              value: "http://localhost:80"
+          env:
+            - name: NEXT_IMAGE_DOMAIN
+              value: "todo"
           resources:
             {{- toYaml .Values.images.nextjs.resources | nindent 12 }}
         ### END NEXTJS CONTAINER
