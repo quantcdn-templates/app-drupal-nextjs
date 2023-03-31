@@ -23,4 +23,6 @@ EXPOSE 3000
 
 ENV PORT 3000
 
-CMD ["/bin/sh", "-c", "npm run build; npm start"]
+# CMD ["/bin/sh", "-c", "npm run build; npm start"]
+
+CMD ["tail", "-f", "/dev/null"]
