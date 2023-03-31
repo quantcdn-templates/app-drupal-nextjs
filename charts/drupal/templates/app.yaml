@@ -85,6 +85,37 @@ spec:
           resources:
             {{- toYaml .Values.images.drupal.resources | nindent 12 }}
         ### END DRUPAL CONTAINER
+        ### BEGIN NEXTJS CONTAINER
+        - name: {{ .Values.images.nextjs.name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.images.nextjs.repository }}:{{ .Values.images.nextjs.tag }}"
+          imagePullPolicy: {{ .Values.images.nextjs.pullPolicy | default .Values.images.pullPolicy }}
+          ports:
+            - name: {{ .Values.images.nextjs.name }}
+              containerPort: {{ .Values.images.nextjs.port }}
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: {{ .Values.images.nextjs.port }}
+            timeoutSeconds: 1
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: {{ .Values.images.nextjs.port }}
+          envFrom:
+            - configMapRef:
+                name: drupal-config
+          resources:
+            {{- toYaml .Values.images.nextjs.resources | nindent 12 }}
+        ### END NEXTJS CONTAINER
         ### BEGIN REDIS CONTAINER
         {{- if .Values.images.redis.enabled }}
         - name: {{ .Values.images.redis.name }}
@@ -124,7 +155,7 @@ spec:
           resources:
             {{- toYaml .Values.images.redis.resources | nindent 12 }}
         {{- end }}
-        ### END REDIS CONTIANER
+        ### END REDIS CONTAINER
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

@@ -10,3 +10,4 @@ dependencies:
   - next:next
   - next:next_jsonapi
   - pathauto:pathauto
+  - redis:redis

@@ -35,6 +35,19 @@ images:
       requests:
         cpu: 500m
         memory: 500Mi
+    nextjs:
+      enabled: true
+      name: nextjs
+      repository: nextjs
+      tag: latest
+      port: 3000
+      resources:
+        limits:
+          cpu: 500m
+          memory: 500Mi
+        requests:
+          cpu: 500m
+          memory: 500Mi
 
 
 podAnnotations: {}
