@@ -7,12 +7,12 @@ metadata:
     app: ingress-upstream
 spec:
     ports:
-    - name: 80-80
+    - name: 80-3000
       port: 80
       protocol: TCP
       targetPort: 3000
     selector:
-        app: nextjs
+      app: nextjs
     sessionAffinity: None
     type: ClusterIP
 status:

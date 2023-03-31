@@ -95,21 +95,21 @@ spec:
             - name: {{ .Values.images.nextjs.name }}
               containerPort: {{ .Values.images.nextjs.port }}
               protocol: TCP
-          # readinessProbe:
-          #   failureThreshold: 3
-          #   initialDelaySeconds: 120
-          #   periodSeconds: 10
-          #   successThreshold: 1
-          #   tcpSocket:
-          #     port: {{ .Values.images.nextjs.port }}
-          #   timeoutSeconds: 1
-          # livenessProbe:
-          #   failureThreshold: 3
-          #   initialDelaySeconds: 120
-          #   periodSeconds: 10
-          #   successThreshold: 1
-          #   tcpSocket:
-          #     port: {{ .Values.images.nextjs.port }}
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 300
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: {{ .Values.images.nextjs.port }}
+            timeoutSeconds: 1
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 300
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: {{ .Values.images.nextjs.port }}
           envFrom:
             - configMapRef:
                 name: drupal-config
