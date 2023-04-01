@@ -35,6 +35,9 @@ spec:
         - name: drupal-data
           persistentVolumeClaim:
             claimName: drupal-pvc
+        - name: nextjs-data
+          persistentVolumeClaim:
+            claimName: nextjs-pvc
         {{- if .Values.images.redis.enabled }}
         - name: redis-data
           persistentVolumeClaim:
@@ -118,6 +121,9 @@ spec:
               value: "http://localhost"
             - name: NEXT_IMAGE_DOMAIN
               value: "localhost"
+          volumeMounts:
+            - name: nextjs-data
+              mountPath: /app/.next
           resources:
             {{- toYaml .Values.images.nextjs.resources | nindent 12 }}
         ### END NEXTJS CONTAINER
