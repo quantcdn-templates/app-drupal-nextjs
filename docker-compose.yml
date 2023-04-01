@@ -9,6 +9,10 @@ x-environment: &environment
     MARIADB_ROOT_PASSWORD: drupal
     QUANT_ENVIRONMENT_TYPE: local
     APACHE_RUN_USER: nobody
+    DRUPAL_REVALIDATE_SECRET: secret
+    DRUPAL_PREVIEW_SECRET: secret
+    NEXT_PUBLIC_DRUPAL_BASE_URL: "http://drupal"
+    NEXT_IMAGE_DOMAIN: "localhost"
 
 services:
   drupal:
@@ -30,9 +34,7 @@ services:
       dockerfile: ./Dockerfile-nextjs
     depends_on:
       - drupal
-    environment:
-      NEXT_PUBLIC_DRUPAL_BASE_URL: "http://drupal:80"
-      NEXT_IMAGE_DOMAIN: "localhost"
+    <<: *environment
     ports:
       - "80:3000"
     #volumes:

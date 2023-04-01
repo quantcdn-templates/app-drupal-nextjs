@@ -722,7 +722,24 @@ $settings['trusted_host_patterns'] = [
   'drupal'
 ];
 
-if (!getenv('QUANT_ENVIRONMENT_TYPE') == 'local') {
+// Set the preview & validate URLs and secrets.
+if (getenv('QUANT_ENVIRONMENT_TYPE') == 'local') {
+  $config['next.next_site.quant_nextjs']['preview_url'] = 'http://nextjs:3000/api/preview';
+  $config['next.next_site.quant_nextjs']['revalidate_url'] = 'http://nextjs:3000/api/revalidate';
+}
+
+// Set the revalidation secret if present.
+if (getenv('DRUPAL_REVALIDATE_SECRET')) {
+  $config['next.next_site.quant_nextjs']['revalidate_secret'] = getenv('DRUPAL_REVALIDATE_SECRET');
+}
+
+// Set the preview secret if present.
+if (getenv('DRUPAL_PREVIEW_SECRET')) {
+  $config['next.next_site.quant_nextjs']['preview_secret'] = getenv('DRUPAL_PREVIEW_SECRET');
+}
+
+// Enable reverse proxy mode outside of local development.
+if (getenv('QUANT_ENVIRONMENT_TYPE') != 'local') {
   $settings['reverse_proxy'] = TRUE;
   $settings['reverse_proxy_addresses'] = array($_SERVER['REMOTE_ADDR']);
 }
