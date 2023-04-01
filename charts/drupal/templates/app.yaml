@@ -121,6 +121,11 @@ spec:
               value: "http://localhost"
             - name: NEXT_IMAGE_DOMAIN
               value: "localhost"
+            ## @todo: Secrets need to pull from chart values/GH secret
+            - name: DRUPAL_PREVIEW_SECRET
+              value: "secret"
+            - name: DRUPAL_REVALIDATE_SECRET
+              value: "secret"
           volumeMounts:
             - name: nextjs-data
               mountPath: /app/.next
