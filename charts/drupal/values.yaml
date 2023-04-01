@@ -30,10 +30,10 @@ images:
     port: 6379
     resources:
       limits:
-        cpu: 500m
+        cpu: 200m
         memory: 500Mi
       requests:
-        cpu: 500m
+        cpu: 200m
         memory: 500Mi
   nextjs:
     enabled: true
@@ -43,10 +43,10 @@ images:
     port: 3000
     resources:
       limits:
-        cpu: 500m
+        cpu: 800m
         memory: 500Mi
       requests:
-        cpu: 500m
+        cpu: 800m
         memory: 500Mi
 
 
