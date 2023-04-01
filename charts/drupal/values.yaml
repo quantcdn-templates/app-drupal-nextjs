@@ -17,11 +17,11 @@ images:
     sshport: 22
     resources:
       limits:
-        cpu: 1000m
-        memory: 1048Mi
+        cpu: 800m
+        memory: 816Mi
       requests:
-        cpu: 1000m
-        memory: 1048Mi
+        cpu: 800m
+        memory: 816Mi
   redis:
     enabled: true
     name: redis
@@ -43,11 +43,11 @@ images:
     port: 3000
     resources:
       limits:
-        cpu: 800m
-        memory: 500Mi
+        cpu: 1000m
+        memory: 732Mi
       requests:
-        cpu: 800m
-        memory: 500Mi
+        cpu: 1000m
+        memory: 732Mi
 
 
 podAnnotations: {}
