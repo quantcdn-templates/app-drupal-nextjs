@@ -12,7 +12,7 @@ x-environment: &environment
     DRUPAL_REVALIDATE_SECRET: secret
     DRUPAL_PREVIEW_SECRET: secret
     NEXT_PUBLIC_DRUPAL_BASE_URL: "http://drupal"
-    NEXT_IMAGE_DOMAIN: "localhost"
+    NEXT_IMAGE_DOMAIN: "drupal"
 
 services:
   drupal:

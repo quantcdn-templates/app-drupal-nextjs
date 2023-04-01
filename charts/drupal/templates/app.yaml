@@ -117,7 +117,7 @@ spec:
             - name: NEXT_PUBLIC_DRUPAL_BASE_URL
               value: "http://localhost"
             - name: NEXT_IMAGE_DOMAIN
-              value: "todo"
+              value: "localhost"
           resources:
             {{- toYaml .Values.images.nextjs.resources | nindent 12 }}
         ### END NEXTJS CONTAINER
