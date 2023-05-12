@@ -89,9 +89,8 @@ jobs:
           KUBE_CONFIG_DATA: ${{ env.KUBECONFIG }}
         with:
           command: |
-            helm repo add quantcdn https://quantcdn.github.io/helm-charts/ 
-            helm upgrade --install ${{ env.BRANCH_NAME_CLEAN }} \
-              quantcdn/drupal-nextjs \
+            helm repo add quantcdn https://quantcdn.github.io/helm-charts/
+            helm upgrade --install ${{ env.BRANCH_NAME_CLEAN }} quantcdn/drupal-nextjs \
               --version 0.1.1 \
               --set appVersion="${{ github.sha }}" \
               --set appEnvironment=${{ env.BRANCH_NAME_CLEAN }} \
