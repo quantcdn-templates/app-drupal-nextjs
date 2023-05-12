@@ -35,7 +35,7 @@ jobs:
           echo $BRANCH_NAME
           echo "BRANCH_NAME_CLEAN=$(echo $BRANCH_NAME)" >> $GITHUB_ENV
           echo "ENVIRONMENT_URL=http://drupal-$BRANCH_NAME.`echo ${{ secrets.QUANT_PROJECT_UUID }} | base64 -d`.apps.quant.cloud" >> $GITHUB_OUTPUT
-  
+          
       - name: Set production vs. non-production values
         run: |
           if [[ $BRANCH_NAME_CLEAN == 'main' ]]; then
