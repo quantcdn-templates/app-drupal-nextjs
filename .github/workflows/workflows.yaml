@@ -31,11 +31,11 @@ jobs:
       - name: Create friendly branch name
         id: setup-branch-names
         run: |
-          BRANCH_NAME=`echo $BRANCH_NAME | tr "[:upper:]" "[:lower:]" | sed "s/[^[:alnum:]-]/-/g"`
+          BRANCH_NAME=`echo ${GITHUB_REF##*/} | tr "[:upper:]" "[:lower:]" | sed "s/[^[:alnum:]-]/-/g"`
           echo $BRANCH_NAME
           echo "BRANCH_NAME_CLEAN=$(echo $BRANCH_NAME)" >> $GITHUB_ENV
           echo "ENVIRONMENT_URL=http://drupal-$BRANCH_NAME.`echo ${{ secrets.QUANT_PROJECT_UUID }} | base64 -d`.apps.quant.cloud" >> $GITHUB_OUTPUT
-          
+
       - name: Set production vs. non-production values
         run: |
           if [[ $BRANCH_NAME_CLEAN == 'main' ]]; then
