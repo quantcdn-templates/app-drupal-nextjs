@@ -16,9 +16,7 @@
     "next-drupal": "^1.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sharp": "^0.31.2"
-  },
-  "devDependencies": {
+    "sharp": "^0.31.2",
     "@types/node": "18.16.8",
     "@types/react": "18.2.6",
     "@types/react-dom": "^18.0.9",
