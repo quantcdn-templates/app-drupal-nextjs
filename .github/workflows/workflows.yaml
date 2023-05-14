@@ -2,7 +2,10 @@ name: Deploy to Quant Cloud
 
 on:
   push:
-    branches: [master]
+    branches:
+      - main
+      - develop
+      - 'feature/*'
 
 env:
   REGISTRY: ${{ secrets.CONTAINER_REGISTRY_URL }}
@@ -91,7 +94,7 @@ jobs:
           command: |
             helm repo add quantcdn https://quantcdn.github.io/helm-charts/
             helm upgrade --install ${{ env.BRANCH_NAME_CLEAN }} quantcdn/drupal-nextjs \
-              --version 0.1.5 \
+              --version 0.1.6 \
               --set appVersion="${{ github.sha }}" \
               --set appEnvironment=${{ env.BRANCH_NAME_CLEAN }} \
               --set images.drupal.repository="${{ env.IMAGE_NAME }}-drupal" \
