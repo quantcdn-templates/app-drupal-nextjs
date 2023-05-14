@@ -8,5 +8,6 @@ export function formatDate(input: string): string {
 }
 
 export function absoluteUrl(input: string) {
-  return `${process.env.NEXT_PUBLIC_DRUPAL_BASE_URL}${input}`
+  // Note: NEXT_PUBLIC_IMAGE_DOMAIN will be empty in Quant Cloud as relative paths are desired.
+  return `${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}${input}`
 }
