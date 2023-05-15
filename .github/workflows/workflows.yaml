@@ -124,7 +124,7 @@ jobs:
         run: |
           kubectl version
           sleep 300
-          kubectl exec deploy/drupal-${{ env.BRANCH_NAME_CLEAN }} --container=drupal-${{ env.BRANCH_NAME_CLEAN }} -- /opt/deployment-scripts/post-deploy-development.sh
+          kubectl exec deploy/drupal-nextjs-${{ env.BRANCH_NAME_CLEAN }} --container=drupal-${{ env.BRANCH_NAME_CLEAN }} -- /opt/deployment-scripts/post-deploy-development.sh
 
       - name: Run the post-deployment script (production)
         if: ${{ env.BRANCH_NAME_CLEAN == 'main' }}
@@ -133,7 +133,7 @@ jobs:
         run: |
           kubectl version
           sleep 300
-          kubectl exec deploy/drupal-${{ env.BRANCH_NAME_CLEAN }} --container=drupal-${{ env.BRANCH_NAME_CLEAN }} -- /opt/deployment-scripts/post-deploy-production.sh
+          kubectl exec deploy/drupal-nextjs-${{ env.BRANCH_NAME_CLEAN }} --container=drupal-${{ env.BRANCH_NAME_CLEAN }} -- /opt/deployment-scripts/post-deploy-production.sh
 
       - name: Clear the QuantCDN caches
         uses: quantcdn/purge-action@v1.2.0
