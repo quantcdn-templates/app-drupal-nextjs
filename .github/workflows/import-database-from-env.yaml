@@ -35,7 +35,7 @@ jobs:
           BRANCH_NAME=`echo ${BRANCH_NAME##*/} | tr "[:upper:]" "[:lower:]" | sed "s/[^[:alnum:]]//g"`
           echo $BRANCH_NAME
           echo "BRANCH_NAME_CLEAN=$(echo $BRANCH_NAME)" >> $GITHUB_ENV
-          export $POD=`kubectl get pods -o name --no-headers=true | grep "drupal-nextjs-${{ env.BRANCH_NAME_CLEAN }}" | head -1 | cut -c 5-`
+          export POD=`kubectl get pods -o name --no-headers=true | grep "drupal-nextjs-${{ env.BRANCH_NAME_CLEAN }}" | head -1 | cut -c 5-`
           echo $POD
           echo "DEST_POD=$POD" >> $GITHUB_ENV
 
