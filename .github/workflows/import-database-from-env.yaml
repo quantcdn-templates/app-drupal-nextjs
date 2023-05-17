@@ -63,7 +63,7 @@ jobs:
           FILENAME: ${{ steps.backup.outputs.file }}
           DIR: ${{ steps.backup.outputs.dir }}
         run: |
-          kubectl cp $DIR/$FILENAME $DEST_POD:/tmp/db-import.sql --container=drupal-${{ env.BRANCH_NAME_CLEAN }}
+          kubectl cp $DIR/$FILENAME ${{ env.DEST_POD }}:/tmp/db-import.sql --container=drupal-${{ env.BRANCH_NAME_CLEAN }}
 
       - name: Run the database import
         env:
@@ -71,7 +71,7 @@ jobs:
           FILENAME: ${{ steps.backup.outputs.file }}
           DIR: ${{ steps.backup.outputs.dir }}
         run: |
-          kubectl exec $DEST_POD --container=drupal-${{ env.BRANCH_NAME_CLEAN }} -- drush sql:create -y
-          kubectl exec $DEST_POD --container=drupal-${{ env.BRANCH_NAME_CLEAN }} -- sh -c 'mysql -u$MARIADB_USER -h$MARIADB_HOST -p$MARIADB_PASSWORD $MARIADB_DATABASE < /tmp/db-import.sql'
-          kubectl exec $DEST_POD --container=drupal-${{ env.BRANCH_NAME_CLEAN }} -- sh -c 'rm /tmp/db-import.sql'
+          kubectl exec ${{ env.DEST_POD }} --container=drupal-${{ env.BRANCH_NAME_CLEAN }} -- drush sql:create -y
+          kubectl exec ${{ env.DEST_POD }} --container=drupal-${{ env.BRANCH_NAME_CLEAN }} -- sh -c 'mysql -u$MARIADB_USER -h$MARIADB_HOST -p$MARIADB_PASSWORD $MARIADB_DATABASE < /tmp/db-import.sql'
+          kubectl exec ${{ env.DEST_POD }} --container=drupal-${{ env.BRANCH_NAME_CLEAN }} -- sh -c 'rm /tmp/db-import.sql'
 
