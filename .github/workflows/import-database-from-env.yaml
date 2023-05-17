@@ -36,6 +36,8 @@ jobs:
 
       -
         name: Create friendly branch name (destination)
+        env:
+          KUBECONFIG: # Unset
         run: |
           BRANCH_NAME=`echo ${BRANCH_NAME##*/} | tr "[:upper:]" "[:lower:]" | sed "s/[^[:alnum:]]//g"`
           echo $BRANCH_NAME
