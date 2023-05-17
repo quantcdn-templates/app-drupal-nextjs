@@ -62,7 +62,7 @@ jobs:
           FILENAME: ${{ steps.backup.outputs.file }}
           DIR: ${{ steps.backup.outputs.dir }}
         run: |
-          export POD=`kubectl get pods -o name --no-headers=true | grep "drupal-nextjs-${{ env.BRANCH_NAME_CLEAN }}" | cut -c 5-`
+          export POD=`kubectl get pods -o name --no-headers=true | grep "drupal-nextjs-${{ env.BRANCH_NAME_CLEAN }}" | head -1 | cut -c 5-`
           kubectl cp $DIR/$FILENAME $POD:/tmp/db-import.sql --container=drupal-${{ env.BRANCH_NAME_CLEAN }}
 
       - name: Run the database import

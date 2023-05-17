@@ -71,7 +71,7 @@ jobs:
         env:
           KUBECONFIG: # Unset
         run: |
-          export POD=`kubectl get pods -o name --no-headers=true | grep "drupal-nextjs-${{ env.BRANCH_NAME_CLEAN }}" | cut -c 5-`
+          export POD=`kubectl get pods -o name --no-headers=true | grep "drupal-nextjs-${{ env.BRANCH_NAME_CLEAN }}" | head -1 | cut -c 5-`
           export FILENAME=`find backup/*.sql`
           kubectl cp $FILENAME $POD:/tmp/db-import.sql --container=drupal-${{ env.BRANCH_NAME_CLEAN }}
 
