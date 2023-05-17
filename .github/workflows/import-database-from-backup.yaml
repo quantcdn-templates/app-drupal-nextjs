@@ -35,6 +35,7 @@ jobs:
           BRANCH_NAME=`echo ${BRANCH_NAME##*/} | tr "[:upper:]" "[:lower:]" | sed "s/[^[:alnum:]]//g"`
           echo $BRANCH_NAME
           echo "BRANCH_NAME_CLEAN=$(echo $BRANCH_NAME)" >> $GITHUB_ENV
+          echo DEST_POD=`kubectl get pods -o name --no-headers=true | grep "drupal-nextjs-${{ env.BRANCH_NAME_CLEAN }}" | head -1 | cut -c 5-` >> $GITHUB_ENV
 
       - uses: quantcdn/cloud-init-action@v1.0.0
         env:
@@ -71,15 +72,14 @@ jobs:
         env:
           KUBECONFIG: # Unset
         run: |
-          export POD=`kubectl get pods -o name --no-headers=true | grep "drupal-nextjs-${{ env.BRANCH_NAME_CLEAN }}" | head -1 | cut -c 5-`
           export FILENAME=`find backup/*.sql`
-          kubectl cp $FILENAME $POD:/tmp/db-import.sql --container=drupal-${{ env.BRANCH_NAME_CLEAN }}
+          kubectl cp $FILENAME $DEST_POD:/tmp/db-import.sql --container=drupal-${{ env.BRANCH_NAME_CLEAN }}
 
       - name: Run the database import
         env:
           KUBECONFIG: # Unset
         run: |
-          kubectl exec deploy/drupal-nextjs-${{ env.BRANCH_NAME_CLEAN }} --container=drupal-${{ env.BRANCH_NAME_CLEAN }} -- drush sql:create -y
-          kubectl exec deploy/drupal-nextjs-${{ env.BRANCH_NAME_CLEAN }} --container=drupal-${{ env.BRANCH_NAME_CLEAN }} -- sh -c 'mysql -u$MARIADB_USER -h$MARIADB_HOST -p$MARIADB_PASSWORD $MARIADB_DATABASE < /tmp/db-import.sql'
-          kubectl exec deploy/drupal-nextjs-${{ env.BRANCH_NAME_CLEAN }} --container=drupal-${{ env.BRANCH_NAME_CLEAN }} -- sh -c 'rm /tmp/db-import.sql'
+          kubectl exec $DEST_POD --container=drupal-${{ env.BRANCH_NAME_CLEAN }} -- drush sql:create -y
+          kubectl exec $DEST_POD --container=drupal-${{ env.BRANCH_NAME_CLEAN }} -- sh -c 'mysql -u$MARIADB_USER -h$MARIADB_HOST -p$MARIADB_PASSWORD $MARIADB_DATABASE < /tmp/db-import.sql'
+          kubectl exec $DEST_POD --container=drupal-${{ env.BRANCH_NAME_CLEAN }} -- sh -c 'rm /tmp/db-import.sql'
 
