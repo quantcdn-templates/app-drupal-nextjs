@@ -14,6 +14,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Create friendly branch name
+        id: setup-branch-names
+        run: |
+          BRANCH_NAME=`echo ${GITHUB_REF##*/} | tr "[:upper:]" "[:lower:]" | sed "s/[^[:alnum:]-]//g"`
+          echo $BRANCH_NAME
+          echo "BRANCH_NAME_CLEAN=$(echo $BRANCH_NAME)" >> $GITHUB_ENV
+
       - name: Setup kubeconfig
         env:
           SECTION_K8S_API_URL: "${{ secrets.SECTION_K8S_API_URL }}"
@@ -25,4 +32,4 @@ jobs:
         env:
           KUBECONFIG: # Unset
         run: |
-          kubectl exec deploy/drupal --container drupal -- ${{ github.event.inputs.command }}
+          kubectl exec deploy/drupal-nextjs-${{ env.BRANCH_NAME_CLEAN }} --container=drupal-${{ env.BRANCH_NAME_CLEAN }} -- ${{ github.event.inputs.command }}
