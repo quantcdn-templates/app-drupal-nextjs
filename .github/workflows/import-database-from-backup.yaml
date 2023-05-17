@@ -21,6 +21,11 @@ jobs:
         run: exit 1
         if: github.event.inputs.confirm != 'CONFIRM'
 
+      - uses: quantcdn/cloud-init-action@v1.0.0
+        env:
+          SECTION_K8S_API_URL: "${{ secrets.SECTION_K8S_API_URL }}"
+          SECTION_API_TOKEN: "${{ secrets.SECTION_API_TOKEN }}"
+
       -
         name: Create friendly branch name (source)
         run: |
@@ -35,12 +40,8 @@ jobs:
           BRANCH_NAME=`echo ${BRANCH_NAME##*/} | tr "[:upper:]" "[:lower:]" | sed "s/[^[:alnum:]]//g"`
           echo $BRANCH_NAME
           echo "BRANCH_NAME_CLEAN=$(echo $BRANCH_NAME)" >> $GITHUB_ENV
-          echo DEST_POD=`kubectl get pods -o name --no-headers=true | grep "drupal-nextjs-${{ env.BRANCH_NAME_CLEAN }}" | head -1 | cut -c 5-` >> $GITHUB_ENV
-
-      - uses: quantcdn/cloud-init-action@v1.0.0
-        env:
-          SECTION_K8S_API_URL: "${{ secrets.SECTION_K8S_API_URL }}"
-          SECTION_API_TOKEN: "${{ secrets.SECTION_API_TOKEN }}"
+          export POD=`kubectl get pods -o name --no-headers=true | grep "drupal-nextjs-${{ env.BRANCH_NAME_CLEAN }}" | head -1 | cut -c 5-`
+          echo "DEST_POD=$POD" >> $GITHUB_ENV
 
       - name: Prepare backup location
         run: |
