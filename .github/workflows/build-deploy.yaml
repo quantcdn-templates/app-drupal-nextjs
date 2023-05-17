@@ -11,7 +11,6 @@ env:
   REGISTRY: ${{ secrets.CONTAINER_REGISTRY_URL }}
   IMAGE_NAME: ${{ secrets.CONTAINER_REGISTRY_URL }}/${{ secrets.CONTAINER_REGISTRY_PROJECT_PREFIX }}/${{ secrets.QUANT_PROJECT_ID }}
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
-  IMAGE_TAG: latest
 
 concurrency:
   group: ${{ github.ref }}
@@ -75,7 +74,7 @@ jobs:
           context: .
           file: ./Dockerfile-drupal
           push: true
-          tags: ${{ env.IMAGE_NAME }}-drupal:${{ env.IMAGE_TAG }}
+          tags: ${{ env.IMAGE_NAME }}-drupal:${{ env.BRANCH_NAME_CLEAN }}
           cache-from: type=gha,scope=${{ github.ref }}-drupal
           cache-to: type=gha,mode=max,scope=${{ github.ref }}-drupal
 
@@ -85,7 +84,7 @@ jobs:
           context: .
           file: ./Dockerfile-nextjs
           push: true
-          tags: ${{ env.IMAGE_NAME }}-nextjs:${{ env.IMAGE_TAG }}
+          tags: ${{ env.IMAGE_NAME }}-nextjs:${{ env.BRANCH_NAME_CLEAN }}
           cache-from: type=gha,scope=${{ github.ref }}-nextjs
           cache-to: type=gha,mode=max,scope=${{ github.ref }}-nextjs
 
@@ -97,14 +96,14 @@ jobs:
           command: |
             helm repo add quantcdn https://quantcdn.github.io/helm-charts/
             helm upgrade --install ${{ env.BRANCH_NAME_CLEAN }} quantcdn/drupal-nextjs \
-              --version 0.1.18 \
+              --version 0.1.19 \
               --set appVersion="${{ github.sha }}" \
               --set region="us" \
               --set appEnvironment=${{ env.BRANCH_NAME_CLEAN }} \
               --set images.drupal.repository="${{ env.IMAGE_NAME }}-drupal" \
-              --set images.drupal.tag="${{ env.IMAGE_TAG }}" \
+              --set images.drupal.tag="${{ env.BRANCH_NAME_CLEAN }}" \
               --set images.nextjs.repository="${{ env.IMAGE_NAME }}-nextjs" \
-              --set images.nextjs.tag="${{ env.IMAGE_TAG }}" \
+              --set images.nextjs.tag="${{ env.BRANCH_NAME_CLEAN }}" \
               --set secrets.registry.user='${{ secrets.CONTAINER_REGISTRY_USER }}' \
               --set secrets.registry.token='${{ secrets.CONTAINER_REGISTRY_TOKEN }}' \
               --set secrets.database.username="${{ env.MARIADB_USER }}" \
