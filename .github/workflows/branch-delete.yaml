@@ -37,3 +37,9 @@ jobs:
         with:
           command: |
             helm uninstall ${{ env.BRANCH_NAME_CLEAN }}
+
+      - uses: strumwolf/delete-deployment-environment@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          environment: ${{ env.BRANCH }}
+          onlyRemoveDeployments: true
