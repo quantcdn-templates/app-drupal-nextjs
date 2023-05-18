@@ -24,6 +24,7 @@ jobs:
           BRANCH_NAME=`echo ${BRANCH##*/} | tr "[:upper:]" "[:lower:]" | sed "s/[^[:alnum:]]//g"`
           echo $BRANCH_NAME
           echo "BRANCH_NAME_CLEAN=$(echo $BRANCH_NAME)" >> $GITHUB_ENV
+          echo "BRANCH_NAME_ORIG=$(echo $BRANCH)" >> $GITHUB_ENV
 
       - uses: quantcdn/cloud-init-action@v1.0.0
         env:
@@ -41,5 +42,5 @@ jobs:
       - uses: strumwolf/delete-deployment-environment@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          environment: ${{ env.BRANCH }}
+          environment: Quant Cloud (${{ env.BRANCH_NAME_ORIG }})
           onlyRemoveDeployments: true
