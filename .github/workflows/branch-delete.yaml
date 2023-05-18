@@ -43,4 +43,4 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           environment: Quant Cloud (${{ env.BRANCH_NAME_ORIG }})
-          onlyRemoveDeployments: true
+          onlyDeactivateDeployments: true
