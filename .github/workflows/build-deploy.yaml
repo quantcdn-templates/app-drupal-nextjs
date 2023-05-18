@@ -96,9 +96,8 @@ jobs:
           command: |
             helm repo add quantcdn https://quantcdn.github.io/helm-charts/
             helm upgrade --install ${{ env.BRANCH_NAME_CLEAN }} quantcdn/drupal-nextjs \
-              --version 0.1.22 \
+              --version 0.1.23 \
               --set appVersion="${{ github.sha }}" \
-              --set region="us" \
               --set appEnvironment=${{ env.BRANCH_NAME_CLEAN }} \
               --set images.drupal.repository="${{ env.IMAGE_NAME }}-drupal" \
               --set images.drupal.tag="${{ env.BRANCH_NAME_CLEAN }}" \
