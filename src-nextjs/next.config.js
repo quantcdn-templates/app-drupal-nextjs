@@ -3,6 +3,7 @@ const nextConfig = {
   images: {
     domains: [process.env.NEXT_PUBLIC_IMAGE_DOMAIN, 'localhost'],
     minimumCacheTTL: 2592000,
+    unoptimized: true
   },
 }
 
