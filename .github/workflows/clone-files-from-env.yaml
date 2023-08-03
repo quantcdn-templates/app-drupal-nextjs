@@ -1,0 +1,68 @@
+name: Copy files from another environment
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'The branch to import files from (e.g: main)'
+        required: true
+      source:
+        description: 'The source directory of files on disk (e.g: /opt/drupal/web/sites/default/files)'
+        required: true
+      destination:
+        description: 'The destination directory of files on disk (e.g: /opt/drupal/web/sites/default/)'
+        required: true
+      confirm:
+        description: '🚨 Existing files will be overridden. Type "CONFIRM" to proceed.'
+        required: true
+
+env:
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+
+jobs:
+  file-clone:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Confirmation validation
+        run: exit 1
+        if: github.event.inputs.confirm != 'CONFIRM'
+
+      - uses: quantcdn/cloud-init-action@v1.0.0
+        env:
+          SECTION_K8S_API_URL: "${{ secrets.SECTION_K8S_API_URL }}"
+          SECTION_API_TOKEN: "${{ secrets.SECTION_API_TOKEN }}"
+
+      -
+        name: Create friendly branch name (source)
+        run: |
+          SOURCE_BRANCH_NAME=`echo ${{ github.event.inputs.environment }}`
+          SOURCE_BRANCH_NAME=`echo ${SOURCE_BRANCH_NAME##*/} | tr "[:upper:]" "[:lower:]" | sed "s/[^[:alnum:]]//g"`
+          echo $SOURCE_BRANCH_NAME
+          echo "SOURCE_BRANCH_NAME_CLEAN=$(echo $SOURCE_BRANCH_NAME)" >> $GITHUB_ENV
+
+      -
+        name: Create friendly branch name (destination)
+        env:
+          KUBECONFIG: # Unset
+        run: |
+          BRANCH_NAME=`echo ${BRANCH_NAME##*/} | tr "[:upper:]" "[:lower:]" | sed "s/[^[:alnum:]]//g"`
+          echo "BRANCH_NAME_CLEAN=$(echo $BRANCH_NAME)" >> $GITHUB_ENV
+          export POD=`kubectl get pods -o name --no-headers=true | grep "drupal-nextjs-$BRANCH_NAME" | head -1 | cut -c 5-`
+          echo "DEST_POD=$POD" >> $GITHUB_ENV
+          export SOURCE_POD=`kubectl get pods -o name --no-headers=true | grep "drupal-nextjs-$SOURCE_BRANCH_NAME_CLEAN" | head -1 | cut -c 5-`
+          echo "SOURCE_POD=$SOURCE_POD" >> $GITHUB_ENV
+
+      - name: Run the file transfer
+        env:
+          KUBECONFIG: # Unset
+        run: |
+          mkdir -p /tmp/files
+          kubectl cp --no-preserve=true ${{ env.SOURCE_POD }}:${{ github.event.inputs.source }} --container=drupal-${{ env.SOURCE_BRANCH_NAME_CLEAN }} /tmp/files/
+          kubectl cp --no-preserve=true /tmp/files/ ${{ env.DEST_POD }}:${{ github.event.inputs.destination }} --container=drupal-${{ env.BRANCH_NAME_CLEAN }}
+
+      - name: List the desintation files
+        env:
+          KUBECONFIG: # Unset
+        run: |
+          kubectl exec ${{ env.DEST_POD }} --container=drupal-${{ env.BRANCH_NAME_CLEAN }} -- ls -lrt ${{ github.event.inputs.destination }}
+
