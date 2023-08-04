@@ -1,0 +1,8 @@
+name: app-drupal-nextjs
+recipe: drupal10
+config:
+  webroot: ./src-drupal/web
+
+tooling:
+  drush:
+    cmd: ./src-drupal/vendor/bin/drush

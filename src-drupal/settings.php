@@ -941,3 +941,24 @@ catch (\Exception $e) {
   $settings['container_yamls'][] = "sites/default/redis-unavailable.services.yml";
   $settings['cache']['default'] = 'cache.backend.null';
 }
+
+// Support for DDEV local environment setup.
+if (file_exists($app_root . '/' . $site_path . '/settings.ddev.php') && getenv('IS_DDEV_PROJECT') == 'true') {
+  include $app_root . '/' . $site_path . '/settings.ddev.php';
+}
+
+// Support for Lando local environment setup.
+if (getenv("LANDO") == "ON") {
+  $lando = getenv('LANDO_INFO');
+  $lando = json_decode($lando, TRUE);
+  $databases['default']['default'] = [
+    'database' => $lando['database']['creds']['database'],
+    'username' => $lando['database']['creds']['user'],
+    'password' => $lando['database']['creds']['password'],
+    'host' => $lando['database']['internal_connection']['host'],
+    'port' => $lando['database']['internal_connection']['port'],
+    'driver' => 'mysql',
+    'prefix' => getenv('MARIADB_PREFIX') ?: '',
+    'collation' => 'utf8mb4_general_ci',
+  ];
+}
