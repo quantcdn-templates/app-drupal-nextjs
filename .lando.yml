@@ -4,5 +4,8 @@ config:
   webroot: ./src-drupal/web
 
 tooling:
+  appserver:
+    build:
+      - composer install
   drush:
     cmd: ./src-drupal/vendor/bin/drush
