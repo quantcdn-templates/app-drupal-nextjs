@@ -14,6 +14,12 @@ composer_version: "2"
 web_environment: []
 nodejs_version: "18"
 
+composer_root: src-drupal
+
+hooks:
+    post-start:
+        - exec: composer --working-dir=/var/www/html/src-drupal install
+
 # Key features of ddev's config.yaml:
 
 # name: <projectname> # Name of the project, automatically provides
