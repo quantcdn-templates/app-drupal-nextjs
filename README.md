@@ -11,9 +11,44 @@ Click the "Deploy to Quant" button to create a new GitHub repository, QuantCDN p
 [![Deploy to Quant](https://www.quantcdn.io/img/quant-deploy-btn-sml.svg)](https://dashboard.quantcdn.io/deploy/step-one?template=app-drupal-nextjs)
 
 
-### Getting Started
+## Getting Started
 
-#### Installation (Drupal)
+## Local development
+
+This repository contains two separate code bases; one for Drupal and one for NextJS. The local development workflow for each is slightly different. The recommended development approach is to use one of the provided local develop stacks for Drupal and use Node on your host machine to interface with the NextJS application.
+
+### Drupal
+
+To assist with local development this starterkit is compatible with a number of local stack management tools. We have provided some instructions to help with getting you set up quickly.
+
+#### DDEV
+
+To get started with [DDEV](https://ddev.readthedocs.io/en/stable/).
+
+1. Follow the [installation documentation](https://ddev.readthedocs.io/en/stable/users/install/) for DDEV for your OS
+2. Run `ddev start` from the repository root
+3. Install Drupal `ddev exec ./src-drupal/vendor/bin/drush si`
+4. .. (or import your database) `ddev import-db --file=dumpfile.sql.gz`
+
+This will use the configuration file `.ddev/config.yml` and defines the minimum requirements to get your local stack up and running.
+
+> [!NOTE]
+> Because Drupal is installed in a subdirectory `ddev drush` does not work as expected; you can execute drush commands with `ddev exec ./src-drupal/vendor/bin/drush`
+
+<!-- LANDO -->
+#### Lando
+
+To get get started with [Lando](https://docs.lando.dev/getting-started/)
+
+1. Follow the [installation documentation](https://docs.lando.dev/getting-started/installation.html) for Lando for your OS.
+2. Run `lando start` form the repository root
+3. Install Drupal or import your database `lando drush si`
+
+The configuration file is located at `.lando.yml` and defines the minimum requirements to get your local stack up and running. 
+
+<!-- END_LANDO -->
+
+#### Docker compose
 
 This is a composer-managed codebase. In the `src-drupal` folder simply run `composer install` to install all required dependencies.
 
@@ -35,17 +70,20 @@ Finally, bring up the Next.js frontend.
 ```
 docker-compose up
 ```
-
 From this point forward you will only need to run `docker-compose up` to bring your Drupal and Next.js containers back up.
 
-#### Next.js
+### Next.js
 
 Next.js is a popular React based Javascript frontend, with capabilities for static site generation and incremental static generation (ISG). This template comes preconfigured with these options active.
 
-It is also preconfigured for revalidation, such that node creation, edits, or deletes, will automatically be reflected in the Next.js frontend.
+#### Host
 
-You can access the Next.js frontend at http://localhost:80
+To get started with NextJS development ensure that you have Node>18 installed on your machine.
 
+1. [Install](https://nodejs.org/en/download/package-manager) Node>18 using a documented method
+2. Install the client dependencies with `npm --prefix src-nexjs install`
+3. Copy `.env.example` and update the Drupal URL references to your chosen local stack
+4. Run the local development server `npm --prefix src-nextjs run dev`
 
 ### Management
 
