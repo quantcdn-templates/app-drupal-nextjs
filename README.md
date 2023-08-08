@@ -27,7 +27,8 @@ To get started with [DDEV](https://ddev.readthedocs.io/en/stable/).
 
 1. Follow the [installation documentation](https://ddev.readthedocs.io/en/stable/users/install/) for DDEV for your OS
 2. Run `ddev start` from the repository root
-3. Install Drupal (or import your database) `ddev exec ./src-drupal/vendor/bin/drush si`
+3. Install Drupal `ddev exec ./src-drupal/vendor/bin/drush si`
+4. .. (or import your database) `ddev import-db --file=dumpfile.sql.gz`
 
 This will use the configuration file `.ddev/config.yml` and defines the minimum requirements to get your local stack up and running.
 

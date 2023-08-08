@@ -751,6 +751,8 @@ if (getenv('QUANT_ENVIRONMENT_TYPE') != 'local') {
 // if (PHP_SAPI !== 'cli' &&
 //   ($_SERVER['REMOTE_ADDR'] != '127.0.0.1') &&
 //   ($_SERVER['SERVER_NAME'] != 'localhost') &&
+//   (getenv('IS_DDEV_PROJECT') != 'true') &&
+//   (getenv("LANDO") != "ON") &&
 //   (empty($headers['X_QUANT_TOKEN']) || $headers['X_QUANT_TOKEN'] != 'abc123')) {
 //     die("Not allowed.");
 // }
