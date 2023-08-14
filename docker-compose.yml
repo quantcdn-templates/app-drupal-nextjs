@@ -33,6 +33,8 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile-nextjs
+      args:
+        NEXT_PUBLIC_DRUPAL_BASE_URL: "http://drupal"
     depends_on:
       - drupal
     <<: *environment
