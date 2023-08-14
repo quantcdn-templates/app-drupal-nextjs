@@ -91,8 +91,8 @@ jobs:
         with:
           context: .
           file: ./Dockerfile-nextjs
-          build-args: 
-            - NEXT_PUBLIC_DRUPAL_BASE_URL=http://localhost
+          build-args: |
+            NEXT_PUBLIC_DRUPAL_BASE_URL=http://localhost
           push: true
           tags: ${{ env.IMAGE_NAME }}-nextjs:${{ env.BRANCH_NAME_CLEAN }}
           cache-from: type=gha,scope=${{ github.ref }}-nextjs
