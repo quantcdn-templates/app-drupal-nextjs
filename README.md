@@ -35,6 +35,17 @@ This will use the configuration file `.ddev/config.yml` and defines the minimum 
 > [!NOTE]
 > Because Drupal is installed in a subdirectory `ddev drush` does not work as expected; you can execute drush commands with `ddev exec ./src-drupal/vendor/bin/drush`
 
+##### Enable Redis in DDEV
+
+Quant Cloud codebases are Redis-enabled by default, and it is recommended you use Redis in your local development environments for the best experience.
+
+To add Redis to your local DDEV environment simply run:
+
+1. `ddev get ddev/ddev-redis`
+2. `ddev restart`
+
+You should see Redis is connected and functioning from the Reports > Redis report.
+
 <!-- LANDO -->
 #### Lando
 
