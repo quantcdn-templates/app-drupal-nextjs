@@ -1,0 +1,9 @@
+#!/bin/bash
+
+## Description: Perform first time site-install ready for Next.js
+## Usage: quant-install
+## Example: ddev quant-install
+
+drush site-install
+drush pm-enable quant_nextjs -y
+

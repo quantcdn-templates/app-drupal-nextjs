@@ -35,6 +35,18 @@ This will use the configuration file `.ddev/config.yml` and defines the minimum 
 > [!NOTE]
 > Because Drupal is installed in a subdirectory `ddev drush` does not work as expected; you can execute drush commands with `ddev exec ./src-drupal/vendor/bin/drush`
 
+##### First time install in DDEV
+
+A custom command is provided to perform a fresh site install, along with enabling the modules required for Next.js integration. To perform a fresh site install run:
+```
+ddev quant-install
+```
+
+If you already have a site install you may enable all required modules by simply running:
+```
+ddev drush pm-enable quant_nextjs
+```
+
 ##### Enable Redis in DDEV
 
 Quant Cloud codebases are Redis-enabled by default, and it is recommended you use Redis in your local development environments for the best experience.
@@ -93,7 +105,7 @@ To get started with NextJS development ensure that you have Node>18 installed on
 
 1. [Install](https://nodejs.org/en/download/package-manager) Node>18 using a documented method
 2. Install the client dependencies with `npm --prefix src-nexjs install`
-3. Copy `.env.example` and update the Drupal URL references to your chosen local stack
+3. Copy `.env.example` or `.env.example.ddev` to `.env.local` and update values as required
 4. Run the local development server `npm --prefix src-nextjs run dev`
 
 ### Management
