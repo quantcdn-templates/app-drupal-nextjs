@@ -1,0 +1,55 @@
+name: Test codebases
+
+on:
+  - push
+
+env:
+  NODE_ENV: development
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-drupal:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          extensions: mysql, pgsql, gd, zip, opcache, redis, apcu
+
+      - name: Install project dependencies
+        run: composer install --working-dir=./src-drupal --dev
+
+      - name: Install dependencies
+        run: |
+          composer global require --dev -n "squizlabs/php_codesniffer=*"
+          composer global require --dev -n drupal/coder
+
+      - name: Validate code standards
+        run: phpcs --standard=./src-drupal/phpcs.xml
+
+  lint-nextjs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm --prefix src-nextjs ci
+
+      - name: Lint
+        run: npm --prefix src-nextjs run lint
+
+      - name: Test
+        run: npm --prefix src-nextjs run test
