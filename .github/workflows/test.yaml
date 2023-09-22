@@ -51,6 +51,10 @@ jobs:
 
       - name: Lint
         run: npm --prefix src-nextjs run lint
+        env:
+          NEXT_PUBLIC_DRUPAL_BASE_URL: http://localhost:81
+          NEXT_PUBLIC_IMAGE_DOMAIN: http://localhost:81
+          NEXT_PUBLIC_BASE_URL: http://localhost
 
       - name: Test
         run: npm --prefix src-nextjs run test
