@@ -6,17 +6,29 @@ services:
     build:
       context: ../
       dockerfile: Dockerfile-nextjs
+    command: sh -c "npm run build && npm run dev"
     depends_on:
       - web
     labels:
       com.ddev.site-name: ${DDEV_SITENAME}
       com.ddev.platform: ddev
       com.ddev.app-type: nextjs
-      com.ddev.approot: $DDEV_APPROOT
     environment:
+      NODE_ENV: development
       NEXT_PUBLIC_DRUPAL_BASE_URL: http://web
       NEXT_PUBLIC_IMAGE_DOMAIN: http://web
       NEXT_PUBLIC_BASE_URL: http://web
       VIRTUAL_HOST: $DDEV_HOSTNAME
       HTTP_EXPOSE: 9998:3000
       HTTPS_EXPOSE: 9999:3000
+    volumes:
+      - ../src-nextjs/tsconfig.json:/app/tsconfig.json
+      - ../src-nextjs/tailwind.config.js:/app/tailwind.config.js
+      - ../src-nextjs/styles:/app/styles
+      - ../src-nextjs/postcss.config.js:/app/postcss.config.js
+      - ../src-nextjs/lib:/app/lib
+      - ../src-nextjs/components:/app/components
+      - ../src-nextjs/pages:/app/pages
+      - ../src-nextjs/public:/app/public
+      - ../src-nextjs/next-env.d.ts:/app/next-env.d.ts
+      - ../src-nextjs/next.config.js:/app/next.config.js
