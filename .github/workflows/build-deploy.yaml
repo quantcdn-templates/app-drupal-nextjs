@@ -106,7 +106,7 @@ jobs:
           command: |
             helm repo add quantcdn https://quantcdn.github.io/helm-charts/
             helm upgrade --install ${{ env.BRANCH_NAME_CLEAN }} quantcdn/drupal-nextjs \
-              --version 0.1.26 \
+              --version 0.1.27 \
               --set appVersion="${{ github.sha }}" \
               --set appEnvironment=${{ env.BRANCH_NAME_CLEAN }} \
               --set images.drupal.repository="${{ env.IMAGE_NAME }}-drupal" \
@@ -126,7 +126,10 @@ jobs:
               --set secrets.smtp.password="${{ secrets.QUANT_SMTP_PASSWORD }}" \
               --set secrets.smtp.from="${{ secrets.QUANT_SMTP_FROM }}" \
               --set secrets.smtp.from_name="${{ secrets.QUANT_SMTP_FROM_NAME }}" \
-              --set secrets.authorized_keys="${{ secrets.AUTHORIZED_KEYS }}"
+              --set secrets.authorized_keys="${{ secrets.AUTHORIZED_KEYS }}" \
+              --set secrets.quant.organization="${{ secrets.QUANT_CUSTOMER_ID }}" \
+              --set secrets.quant.project="${{ secrets.QUANT_PROJECT_ID }}" \
+              --set secrets.quant.token="${{ secrets.QUANT_TOKEN }}"
 
       - name: Run the post-deployment script (non-production)
         if: ${{ env.BRANCH_NAME_CLEAN != 'main' }}
