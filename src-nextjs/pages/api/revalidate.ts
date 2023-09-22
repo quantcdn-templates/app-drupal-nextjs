@@ -1,4 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next"
+import { types } from "@quantcdn/quant-client"
+import { quant } from "../../utils/quant"
 
 export default async function handler(
   request: NextApiRequest,
@@ -19,6 +21,14 @@ export default async function handler(
 
   try {
     await response.revalidate(slug)
+
+    // Purge QuantCDN Edge caches.
+    const p:types.URLPayload = {"url": slug}
+    quant.project.purge(p)
+
+    // @todo: Generate latest static export if enabled.
+    // See https://github.com/vercel/next.js/issues/2954
+    // https://github.com/vercel/next.js/issues/12593
 
     return response.json({})
   } catch (error) {

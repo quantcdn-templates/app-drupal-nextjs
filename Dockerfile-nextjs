@@ -1,5 +1,8 @@
 FROM node:18-alpine
 
+ARG NEXT_PUBLIC_DRUPAL_BASE_URL
+ENV NEXT_PUBLIC_DRUPAL_BASE_URL=${NEXT_PUBLIC_DRUPAL_BASE_URL}
+
 ## TEST
 RUN apk add vim curl
 
@@ -18,7 +21,7 @@ USER nextjs
 RUN npm install
 
 EXPOSE 3000
-
 ENV PORT 3000
 
-CMD ["/bin/sh", "-c", "npm run build; npm start"]
+COPY --from=ghcr.io/quantcdn/entrypoint-node:main /usr/local/bin/entrypoint-node /usr/bin/entrypoint-node
+CMD [ "/usr/bin/entrypoint-node", "build", "start" ]

@@ -103,6 +103,8 @@ RUN mkdir -p /root/.ssh
 RUN mkdir -p /run/sshd
 EXPOSE 80 22
 
+COPY --from=ghcr.io/quantcdn/backend-init:main /usr/local/bin/backend-init /usr/bin/backend-init
+
 ENTRYPOINT [ "/quant/entrypoints.sh", "docker-php-entrypoint" ]
 CMD ["apache2-foreground"]
 
