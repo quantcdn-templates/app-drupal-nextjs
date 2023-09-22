@@ -17,9 +17,6 @@ services:
       NEXT_PUBLIC_DRUPAL_BASE_URL: http://web
       NEXT_PUBLIC_IMAGE_DOMAIN: http://web
       NEXT_PUBLIC_BASE_URL: http://web
-      # HTTP_EXPOSE allows for ports accepting HTTP traffic to be accessible from <site>.ddev.site:<port>
-      # To expose a container port to a different host port, define the port as hostPort:containerPort
+      VIRTUAL_HOST: $DDEV_HOSTNAME
       HTTP_EXPOSE: 9998:3000
-      # You can optionally expose an HTTPS port option for any ports defined in HTTP_EXPOSE.
-      # To expose an HTTPS port, define the port as securePort:containerPort.
       HTTPS_EXPOSE: 9999:3000
