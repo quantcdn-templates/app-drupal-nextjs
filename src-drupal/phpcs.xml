@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<ruleset name="Drupal">
+    <description>Drupal coding standard</description>
+    <rule ref="Drupal" />
+    <file>./web/modules/custom</file>
+    <file>./web/themes/custom</file>
+    <!-- Exclude directories -->
+    <exclude-pattern>./web/modules/custom/quant*</exclude-pattern>
+</ruleset>

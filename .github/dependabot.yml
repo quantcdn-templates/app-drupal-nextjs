@@ -1,0 +1,14 @@
+version: 2
+updates:
+
+  - package-ecosystem: "npm"
+    directory: "src-nextjs"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 10
+
+  - package-ecosystem: "composer"
+    directory: "src-drupal"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 10
