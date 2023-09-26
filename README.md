@@ -21,19 +21,22 @@ This repository contains two separate code bases; one for Drupal and one for Nex
 
 To assist with local development this starterkit is compatible with a number of local stack management tools. We have provided some instructions to help with getting you set up quickly.
 
-#### DDEV
+#### DDEV (Recommended)
 
 To get started with [DDEV](https://ddev.readthedocs.io/en/stable/).
 
 1. Follow the [installation documentation](https://ddev.readthedocs.io/en/stable/users/install/) for DDEV for your OS
 2. Run `ddev start` from the repository root
-3. Install Drupal `ddev exec ./src-drupal/vendor/bin/drush si`
+3. Run `ddev quant-install` for your first time install
 4. .. (or import your database) `ddev import-db --file=dumpfile.sql.gz`
 
 This will use the configuration file `.ddev/config.yml` and defines the minimum requirements to get your local stack up and running.
 
+By default Drupal will be available at https://app-drupal-nextjs.ddev.site
+By default Next.js will be available at https://app-drupal-nextjs.ddev.site:9999
+
 > [!NOTE]
-> Because Drupal is installed in a subdirectory `ddev drush` does not work as expected; you can execute drush commands with `ddev exec ./src-drupal/vendor/bin/drush`
+> Because Drupal is installed in a subdirectory `ddev drush` may not work as expected; you can execute drush commands with `ddev exec ./src-drupal/vendor/bin/drush`
 
 ##### First time install in DDEV
 

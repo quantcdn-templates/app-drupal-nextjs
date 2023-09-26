@@ -727,6 +727,10 @@ $settings['trusted_host_patterns'] = [
 if (getenv('QUANT_ENVIRONMENT_TYPE') == 'local') {
   $config['next.next_site.quant_nextjs']['preview_url'] = 'http://localhost/api/preview';
   $config['next.next_site.quant_nextjs']['revalidate_url'] = 'http://nextjs:3000/api/revalidate';
+
+  if (getenv('IS_DDEV_PROJECT')) {
+    $config['next.next_site.quant_nextjs']['preview_url'] = getenv('DDEV_PRIMARY_URL') . ':9999/api/preview';
+  }
 }
 
 // Set the revalidation secret if present.
