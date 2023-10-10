@@ -21,7 +21,7 @@ export function NodeArticleTeaser({ node, ...props }: NodeArticleTeaserProps) {
             <span className="font-semibold">{node.uid?.display_name}</span>
           </span>
         ) : null}
-        <span> - {formatDate(node.created)}</span>
+        <span suppressHydrationWarning> - {formatDate(node.created)}</span>
       </div>
       {node.field_image && (
         <figure className="my-4">
