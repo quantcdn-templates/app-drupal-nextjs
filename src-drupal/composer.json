@@ -23,7 +23,7 @@
         "drupal/next": "^1.6",
         "drupal/quantcdn": "^1.5",
         "drupal/redis": "^1.6",
-        "drush/drush": "^11.5"
+        "drush/drush": "^12.3"
     },
     "conflict": {
         "drupal/drupal": "*"
