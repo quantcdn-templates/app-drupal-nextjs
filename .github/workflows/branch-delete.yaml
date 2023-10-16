@@ -1,10 +1,8 @@
 name: Delete environment
 
+# @todo: Limit to deployed branches only.
 on:
-  delete:
-    branches:
-      - develop
-      - 'feature/*'
+  delete
 
 jobs:
   delete-environment:
