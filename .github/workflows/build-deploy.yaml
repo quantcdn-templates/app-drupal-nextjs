@@ -13,7 +13,7 @@ env:
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
 concurrency:
-  group: ${{ github.ref }}
+  group: ${{ github.ref }}-build
   cancel-in-progress: true
 
 jobs:
