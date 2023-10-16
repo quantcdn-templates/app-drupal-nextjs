@@ -7,6 +7,7 @@ NC='\033[0m'
 printf "${RED}**Production environment**${NC} post-deploy-development\n"
 
 ## Cache rebuild and database updates.
+drush cr
 drush updb -y
 
 ## Show the output of drush status.
