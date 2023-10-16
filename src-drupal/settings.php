@@ -732,6 +732,11 @@ if (getenv('QUANT_ENVIRONMENT_TYPE') == 'local') {
     $config['next.next_site.quant_nextjs']['preview_url'] = getenv('DDEV_PRIMARY_URL') . ':9999/api/preview';
   }
 }
+// Quant Cloud default settings.
+else {
+  $config['next.next_site.quant_nextjs']['revalidate_url'] = 'http://localhost:3000/api/revalidate';
+  $config['next.next_site.quant_nextjs']['preview_url'] = 'https://nextjs-' . getenv('QUANT_ENVIRONMENT_BRANCH') . '-' . getenv('QUANT_PROJECT_UUID') . '.apps.quant.cloud/api/preview';
+}
 
 // Set the revalidation secret if present.
 if (getenv('DRUPAL_REVALIDATE_SECRET')) {
