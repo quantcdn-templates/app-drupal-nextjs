@@ -735,7 +735,7 @@ if (getenv('QUANT_ENVIRONMENT_TYPE') == 'local') {
 // Quant Cloud default settings.
 else {
   $config['next.next_site.quant_nextjs']['revalidate_url'] = 'http://localhost:3000/api/revalidate';
-  $config['next.next_site.quant_nextjs']['preview_url'] = 'https://nextjs-' . getenv('QUANT_ENVIRONMENT_BRANCH') . '-' . getenv('QUANT_PROJECT_UUID') . '.apps.quant.cloud/api/preview';
+  $config['next.next_site.quant_nextjs']['preview_url'] = 'https://nextjs-' . getenv('QUANT_ENVIRONMENT_BRANCH') . '.' . getenv('QUANT_PROJECT_UUID') . '.apps.quant.cloud/api/preview';
 }
 
 // Set the revalidation secret if present.
