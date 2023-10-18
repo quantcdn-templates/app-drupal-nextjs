@@ -16,11 +16,12 @@ services:
     environment:
       NODE_ENV: development
       NEXT_PUBLIC_DRUPAL_BASE_URL: http://web
-      NEXT_PUBLIC_IMAGE_DOMAIN: http://web
       NEXT_PUBLIC_BASE_URL: http://web
+      NEXT_PUBLIC_IMAGE_DOMAIN: ''
       VIRTUAL_HOST: $DDEV_HOSTNAME
       HTTP_EXPOSE: 9998:3000
       HTTPS_EXPOSE: 9999:3000
+      REDIS_HOST: redis:6379
     volumes:
       - ../src-nextjs/tsconfig.json:/app/tsconfig.json
       - ../src-nextjs/tailwind.config.js:/app/tailwind.config.js
