@@ -15,7 +15,7 @@
     "@quantcdn/quant-client": "^2.0.0",
     "@tailwindcss/typography": "^0.5.8",
     "@types/node": "18.16.8",
-    "@types/react": "18.2.6",
+    "@types/react": "18.2.30",
     "@types/react-dom": "^18.0.9",
     "autoprefixer": "^10.4.13",
     "eslint": "^8.40.0",
